@@ -25,9 +25,7 @@
   const sizeStyle = computed(() => `width: ${props.width}px; height: ${props.height}px;`);
   const positionStyle = computed(() => `left: ${props.x}px; top: ${props.y}px;`);
 
-  watch(() => props.x, () => {
-    console.log(props.x)
-  });
+
 </script>
 
 <template>
