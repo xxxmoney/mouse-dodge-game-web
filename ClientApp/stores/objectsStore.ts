@@ -7,10 +7,12 @@ import Constants from "~/Constants";
 export const useObjectsStore = defineStore({
     id: 'objects-store',
     state: () => ({
-        objects: <GameObject[]>[],
+        objects: <GameObject[]> [],
         areaWidth: 0,
         areaHeight: 0,
-        interval: null as NodeJS.Timeout | null
+        interval: <NodeJS.Timeout | null> null,
+        isMouseOutside: true,
+        lastRandomObjectDate: <Date | null> null
     }),
     actions: {
         moveObjects() {
@@ -35,7 +37,15 @@ export const useObjectsStore = defineStore({
 
         start() {
             this.interval = setInterval(() => {
+                if(this.isMouseOutside) return;
+
                 this.moveObjects();
+
+                if(this.lastRandomObjectDate === null || new Date().getTime() - this.lastRandomObjectDate.getTime() > Constants.randomObjectRate) {
+                    this.addRandomObject();
+                    this.lastRandomObjectDate = new Date();
+                }
+
             }, Constants.tickRate);
         },
 
