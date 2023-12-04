@@ -53,4 +53,30 @@ export class GameObject {
         return this._initialVelocityY;
     }
 
+    public get leftTopX(): number {
+        return this.x - this.width / 2;
+    }
+    public get leftTopY(): number {
+        return this.y - this.height / 2;
+    }
+    public get leftBottomX(): number {
+        return this.x - this.width / 2;
+    }
+    public get leftBottomY(): number {
+        return this.y + this.height / 2;
+    }
+    public get rightTopX(): number {
+        return this.x + this.width / 2;
+    }
+    public get rightTopY(): number {
+        return this.y - this.height / 2;
+    }
+    public get rightBottomX(): number {
+        return this.x + this.width / 2;
+    }
+    public get rightBottomY(): number {
+        return this.y + this.height / 2;
+    }
+
+
 }
