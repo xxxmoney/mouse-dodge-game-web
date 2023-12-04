@@ -13,7 +13,5 @@
 </template>
 
 <style>
-  .p-dialog-header {
-    display: none !important;
-  }
+
 </style>
