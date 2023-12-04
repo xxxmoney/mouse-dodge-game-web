@@ -5,9 +5,9 @@
 </script>
 
 <template>
-  <Dialog v-model:visible="visible" modal :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-    <div class="pt-5">
-      <span class="m-auto text-4xl">Please move your mouse to play area!</span>
+  <Dialog v-model:visible="visible" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }" position="top">
+    <div class="pt-8 flex flex-row justify-center">
+      <span class="text-4xl">Please move your mouse to play area!</span>
     </div>
   </Dialog>
 </template>
