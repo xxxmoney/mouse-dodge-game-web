@@ -1,15 +1,25 @@
 <script setup lang="ts">
+  import { useObjectsStore } from "~/stores/objectsStore";
+  import Constants from "~/Constants";
 
-  const objects: any[] = [
-      new GameObject("https://picsum.photos/200/300", 50, 50, 400, 100, 50),
-  ];
+  const store = useObjectsStore();
 
+  onUnmounted(() => {
+    store.stop();
+  });
+
+  setInterval(() => {
+    if(!store.isRunning) return;
+
+    store.addRandomObject();
+  }, Constants.randomObjectRate);
+
+  const objects = computed(() => store.objects);
 </script>
 
 <template>
   <div class="w-full h-full relative border-2">
-    <MovableObject v-for="(object, index) in objects" :object="object" :key="index"
-  />
+    <Object v-for="object in objects" :key="object.id" :img="object.img" :width="object.width" :height="object.height" :x="object.x" :y="object.y" />
   </div>
 </template>
 
