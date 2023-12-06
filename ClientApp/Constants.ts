@@ -3,6 +3,7 @@ export default {
     tickRate: 10,
     randomObjectRate: 1000,
     divisionRate: 50,
+    velocityLossRate: 0.9,
 
     maxVelocity: 300,
     maxObjectCount: 15,

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { GameObject } from "@/classes/gameObject";
-import { moveObject } from "~/utils/objectMover";
+import {bounceOnBorderCollision, moveObject} from "~/utils/objectMovement";
 import { generateRandomObject } from "~/utils/randomObjectGenerator";
 import Constants from "~/Constants";
 
@@ -15,11 +15,6 @@ export const useObjectsStore = defineStore({
         lastRandomObjectDate: <Date | null> null
     }),
     actions: {
-        moveObjects() {
-            this.objects.forEach(object => {
-                moveObject(object as GameObject);
-            });
-        },
 
         addObject(object: GameObject) {
             this.objects.push(object);
@@ -39,7 +34,10 @@ export const useObjectsStore = defineStore({
             this.interval = setInterval(() => {
                 if(this.isMouseOutside) return;
 
-                this.moveObjects();
+                this.objects.forEach(object => {
+                    moveObject(object as GameObject);
+                    bounceOnBorderCollision(object as GameObject, this.areaWidth, this.areaHeight);
+                });
 
                 if(this.lastRandomObjectDate === null || new Date().getTime() - this.lastRandomObjectDate.getTime() > Constants.randomObjectRate) {
                     if(this.objects.length >= Constants.maxObjectCount) {

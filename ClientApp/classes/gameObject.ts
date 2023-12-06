@@ -28,9 +28,21 @@ export class GameObject {
         this.maxVelocity = maxVelocity;
     }
 
-
     public get id(): string {
         return this._id;
+    }
+
+    public get leftTopPosition(): Vector {
+        return new Vector(this.position.x - this.width / 2, this.position.y - this.height / 2);
+    }
+    public get rightTopPosition(): Vector {
+        return new Vector(this.position.x + this.width / 2, this.position.y - this.height / 2);
+    }
+    public get leftBottomPosition(): Vector {
+        return new Vector(this.position.x - this.width / 2, this.position.y + this.height / 2);
+    }
+    public get rightBottomPosition(): Vector {
+        return new Vector(this.position.x + this.width / 2, this.position.y + this.height / 2);
     }
 
 
