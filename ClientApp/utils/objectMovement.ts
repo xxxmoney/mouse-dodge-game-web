@@ -14,7 +14,7 @@ const bounceOnBorderCollision = (object: GameObject, areaWidth: number, areaHeig
         object.velocity.x = toOpositeVelocity(object.velocity.x);
         object.acceleration.x = toOpositeAcceleration(object.acceleration.x);
     }
-    if(object.leftTopPosition.y <= 0 || object.leftBottomPosition.y >= areaHeight) {
+    else if(object.leftTopPosition.y <= 0 || object.leftBottomPosition.y >= areaHeight) {
         object.velocity.y = toOpositeVelocity(object.velocity.y);
         object.acceleration.y = toOpositeAcceleration(object.acceleration.y);
     }

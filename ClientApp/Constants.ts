@@ -4,6 +4,7 @@ export default {
     randomObjectRate: 1000,
     divisionRate: 50,
     velocityLossRate: 0.9,
+    randomPositionGenerationOffsetRate: 1.5,
 
     maxVelocity: 300,
     maxObjectCount: 15,
