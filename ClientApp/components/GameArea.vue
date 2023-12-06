@@ -22,7 +22,7 @@
 
 <template>
   <div class="w-full h-full relative border-2" ref="target">
-    <Object v-for="object in objects" :key="object.id" :img="object.img" :width="object.width" :height="object.height" :x="object.x" :y="object.y" />
+    <Object v-for="object in objects" :key="object.id" :img="object.img" :width="object.width" :height="object.height" :x="object.position.x" :y="object.position.y" />
   </div>
 </template>
 

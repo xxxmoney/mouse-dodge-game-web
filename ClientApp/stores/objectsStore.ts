@@ -17,7 +17,7 @@ export const useObjectsStore = defineStore({
     actions: {
         moveObjects() {
             this.objects.forEach(object => {
-                moveObject(object);
+                moveObject(object as GameObject);
             });
         },
 
@@ -29,7 +29,7 @@ export const useObjectsStore = defineStore({
         },
 
         removeObject(object: GameObject) {
-            this.objects = this.objects.filter(obj => obj.id !== object.id);
+            this.objects = this.objects.filter(obj => obj !== object);
         },
         removeAllObjects() {
             this.objects = [];
@@ -42,6 +42,10 @@ export const useObjectsStore = defineStore({
                 this.moveObjects();
 
                 if(this.lastRandomObjectDate === null || new Date().getTime() - this.lastRandomObjectDate.getTime() > Constants.randomObjectRate) {
+                    if(this.objects.length >= Constants.maxObjectCount) {
+                        this.removeObject(this.objects[0] as GameObject);
+                    }
+
                     this.addRandomObject();
                     this.lastRandomObjectDate = new Date();
                 }
