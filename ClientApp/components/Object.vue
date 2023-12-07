@@ -27,7 +27,7 @@
 </script>
 
 <template>
-  <div :style="positionStyle" class="absolute transform">
-    <img :src="img" :style="sizeStyle" class="object-cover" alt="Object Image" >
+  <div :style="positionStyle" class="absolute transform rounded-full">
+    <img :src="img" :style="sizeStyle" class="object-cover rounded-full" alt="Object Image" >
   </div>
 </template>
