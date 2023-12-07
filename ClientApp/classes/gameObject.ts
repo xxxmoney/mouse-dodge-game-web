@@ -1,56 +1,58 @@
 import Constants from "~/Constants";
 import { v4 as uuidv4 } from 'uuid';
+import { Vector } from "~/classes/vector";
+import { getDistance } from "~/utils/movement";
 
 export class GameObject {
-    private _id: string;
-    public img: string;
-    public width: number;
-    public height: number;
-    public x: number;
-    public y: number;
-    private readonly _initialX: number;
-    private readonly _initialY: number;
-    private readonly _initialVelocityX: number;
-    private readonly _initialVelocityY: number;
-    public velocityX: number;
-    public velocityY: number;
-    public accelerationX: number;
-    public accelerationY: number;
+    private readonly _id: string;
+    public readonly img: string;
+    public readonly width: number;
+    public readonly height: number;
+    public readonly position: Vector
+    public readonly initialPosition: Vector
+    private readonly initialVelocity: Vector;
+    public readonly velocity: Vector;
+    public readonly acceleration: Vector;
     public maxVelocity: number;
 
-    constructor(img: string, width: number, height: number, initialX: number, initialY: number, accelerationX: number = 0, accelerationY: number = 0, initialVelocityX: number = 0, initialVelocityY: number = 0, maxVelocity: number = Constants.maxVelocity) {
+    constructor(img: string, width: number, height: number, initialPosition: Vector, acceleration: Vector = new Vector(0, 0), initialVelocity: Vector = new Vector(0, 0), maxVelocity: number = Constants.maxVelocity) {
         this._id = uuidv4();
 
         this.img = img;
         this.width = width;
         this.height = height;
-        this._initialX = initialX;
-        this._initialY = initialY;
-        this.x = initialX;
-        this.y = initialY;
-        this._initialVelocityX = initialVelocityX;
-        this._initialVelocityY = initialVelocityY;
-        this.velocityX = initialVelocityX;
-        this.velocityY = initialVelocityY;
-        this.accelerationX = accelerationX;
-        this.accelerationY = accelerationY;
+        this.initialPosition = initialPosition;
+        this.position = initialPosition;
+        this.initialVelocity = initialVelocity;
+        this.velocity = initialVelocity;
+        this.acceleration = acceleration;
         this.maxVelocity = maxVelocity;
     }
 
     public get id(): string {
         return this._id;
     }
-    public get initialX(): number {
-        return this._initialX;
+
+    public get leftTopPosition(): Vector {
+        return new Vector(this.position.x - this.width / 2, this.position.y - this.height / 2);
     }
-    public get initialY(): number {
-        return this._initialY;
+    public get rightTopPosition(): Vector {
+        return new Vector(this.position.x + this.width / 2, this.position.y - this.height / 2);
     }
-    public get initialVelocityX(): number {
-        return this._initialVelocityX;
+    public get leftBottomPosition(): Vector {
+        return new Vector(this.position.x - this.width / 2, this.position.y + this.height / 2);
     }
-    public get initialVelocityY(): number {
-        return this._initialVelocityY;
+    public get rightBottomPosition(): Vector {
+        return new Vector(this.position.x + this.width / 2, this.position.y + this.height / 2);
+    }
+
+    public collidesWith(other: GameObject): boolean {
+        const distance = getDistance(this.position, other.position);
+
+        const sumWidths = (this.width + other.width) / 2;
+        const sumHeights = (this.height + other.height) / 2;
+        
+        return distance <= sumWidths && distance <= sumHeights;
     }
 
 }

@@ -8,6 +8,7 @@
     <h1 class="text-center text-5xl">Dodge!</h1>
     <GameControls />
     <GameArea />
+    <MouseInfoDialog />
   </div>
 </template>
 
