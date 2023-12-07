@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import { GameObject } from "@/classes/gameObject";
-import {bounceOnBorderCollision, moveObject} from "~/utils/objectMovement";
 import { generateRandomObject } from "~/utils/randomObjectGenerator";
 import Constants from "~/Constants";
+import {bounceObjects, bounceOnObjectCollision} from "~/utils/objectMovement";
 
 export const useObjectsStore = defineStore({
     id: 'objects-store',
@@ -30,23 +30,34 @@ export const useObjectsStore = defineStore({
             this.objects = [];
         },
 
+        handleRandomSpawn() {
+            if(this.lastRandomObjectDate === null || new Date().getTime() - this.lastRandomObjectDate.getTime() > Constants.randomObjectRate) {
+                if(this.objects.length >= Constants.maxObjectCount) {
+                    this.removeObject(this.objects[0] as GameObject);
+                }
+
+                this.addRandomObject();
+                this.lastRandomObjectDate = new Date();
+            }
+        },
+
+        handleObject(object: GameObject) {
+            moveObject(object as GameObject);
+            bounceOnBorderCollision(object as GameObject, this.areaWidth, this.areaHeight);
+
+            const collisionObject = this.objects.find(otherObject => otherObject !== object && object.collidesWith(otherObject as GameObject));
+            if(collisionObject) {
+                bounceObjects(object as GameObject, collisionObject as GameObject);
+            }
+        },
+
         start() {
             this.interval = setInterval(() => {
                 if(this.isMouseOutside) return;
 
-                this.objects.forEach(object => {
-                    moveObject(object as GameObject);
-                    bounceOnBorderCollision(object as GameObject, this.areaWidth, this.areaHeight);
-                });
+                this.objects.forEach(object => this.handleObject(object as GameObject));
 
-                if(this.lastRandomObjectDate === null || new Date().getTime() - this.lastRandomObjectDate.getTime() > Constants.randomObjectRate) {
-                    if(this.objects.length >= Constants.maxObjectCount) {
-                        this.removeObject(this.objects[0] as GameObject);
-                    }
-
-                    this.addRandomObject();
-                    this.lastRandomObjectDate = new Date();
-                }
+                this.handleRandomSpawn();
 
             }, Constants.tickRate);
         },

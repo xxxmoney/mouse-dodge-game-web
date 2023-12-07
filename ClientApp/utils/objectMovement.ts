@@ -19,5 +19,12 @@ const bounceOnBorderCollision = (object: GameObject, areaWidth: number, areaHeig
         object.acceleration.y = toOpositeAcceleration(object.acceleration.y);
     }
 }
+const bounceObjects = (object: GameObject, otherObject: GameObject) => {
+    object.velocity.x = toOpositeVelocity(object.velocity.x);
+    object.velocity.y = toOpositeVelocity(object.velocity.y);
 
-export { moveObject, bounceOnBorderCollision }
+    otherObject.velocity.x = toOpositeVelocity(otherObject.velocity.x);
+    otherObject.velocity.y = toOpositeVelocity(otherObject.velocity.y);
+}
+
+export { moveObject, bounceOnBorderCollision, bounceObjects }

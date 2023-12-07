@@ -1,4 +1,5 @@
 import Constants from "~/Constants";
+import { Vector } from "~/classes/vector";
 
 const applyVelocity = (position: number, velocity: number): number => position + velocity;
 
@@ -8,4 +9,10 @@ const toOpositeVelocity = (velocity: number): number => velocity * -1 * Constant
 
 const toOpositeAcceleration = (acceleration: number): number => acceleration * -1;
 
-export { applyVelocity, applyAcceleration, toOpositeVelocity, toOpositeAcceleration }
+const getDistance = (a: Vector, b: Vector): number => {
+    const dx = a.x - b.x;
+    const dy = a.y - b.y;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+export { applyVelocity, applyAcceleration, toOpositeVelocity, toOpositeAcceleration, getDistance }

@@ -1,6 +1,7 @@
 import Constants from "~/Constants";
 import { v4 as uuidv4 } from 'uuid';
 import { Vector } from "~/classes/vector";
+import { getDistance } from "~/utils/movement";
 
 export class GameObject {
     private readonly _id: string;
@@ -45,6 +46,13 @@ export class GameObject {
         return new Vector(this.position.x + this.width / 2, this.position.y + this.height / 2);
     }
 
+    public collidesWith(other: GameObject): boolean {
+        const distance = getDistance(this.position, other.position);
 
+        const sumWidths = (this.width + other.width) / 2;
+        const sumHeights = (this.height + other.height) / 2;
+        
+        return distance <= sumWidths && distance <= sumHeights;
+    }
 
 }
