@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { GameObject } from "@/classes/gameObject";
 import { generateRandomObject } from "~/utils/randomObjectGenerator";
 import Constants from "~/Constants";
-import {bounceObjects, bounceOnObjectCollision} from "~/utils/objectMovement";
+import { bounceObjects } from "~/utils/objectMovement";
 
 export const useObjectsStore = defineStore({
     id: 'objects-store',
