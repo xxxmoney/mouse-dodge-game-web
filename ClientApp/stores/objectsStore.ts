@@ -20,7 +20,7 @@ export const useObjectsStore = defineStore({
             this.objects.push(object);
         },
         addRandomObject() {
-            this.addObject(generateRandomObject(this.areaWidth, this.areaHeight));
+            this.addObject(generateRandomObject(this.areaWidth, this.areaHeight, this.objects as GameObject[]));
         },
 
         removeObject(object: GameObject) {
