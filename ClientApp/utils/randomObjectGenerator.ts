@@ -3,7 +3,7 @@ import { getRandomImageUrl } from "~/utils/randomImageProvider";
 import Constants from "~/Constants";
 import { Vector } from "~/classes/vector";
 
-const generateRandomObject = (areaWidth: number, areaHeight: number, objects: GameObject[]): GameObject => {
+const generateRandomObject = (areaWidth: number, areaHeight: number, mouseX: number, mouseY: number, objects: GameObject[]): GameObject => {
     const img = getRandomImageUrl();
     const width = Constants.width;
     const height = Constants.height;
@@ -23,8 +23,9 @@ const generateRandomObject = (areaWidth: number, areaHeight: number, objects: Ga
         newObject.position.y = randomY;
 
         const isColliding = objects.some(existingObject => existingObject.collidesWith(newObject));
+        const isInsideMouse = newObject.isInside(new Vector(mouseX, mouseY));
 
-        if (!isColliding) {
+        if (!isInsideMouse && !isColliding) {
             break;
         }
     }

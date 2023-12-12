@@ -21,5 +21,5 @@ export default defineNuxtConfig({
   css: [
       'primevue/resources/themes/lara-light-blue/theme.css'
   ],
-  ssr: false
+  ssr: true
 })

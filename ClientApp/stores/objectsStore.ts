@@ -3,6 +3,7 @@ import { GameObject } from "@/classes/gameObject";
 import { generateRandomObject } from "~/utils/randomObjectGenerator";
 import Constants from "~/Constants";
 import { bounceObjects } from "~/utils/objectMovement";
+import { Vector } from "~/classes/vector";
 
 export const useObjectsStore = defineStore({
     id: 'objects-store',
@@ -10,9 +11,12 @@ export const useObjectsStore = defineStore({
         objects: <GameObject[]> [],
         areaWidth: 0,
         areaHeight: 0,
+        mouseX: 0,
+        mouseY: 0,
         interval: <NodeJS.Timeout | null> null,
         isMouseOutside: true,
-        lastRandomObjectDate: <Date | null> null
+        lastRandomObjectDate: <Date | null> null,
+        failDialog: false,
     }),
     actions: {
 
@@ -20,7 +24,7 @@ export const useObjectsStore = defineStore({
             this.objects.push(object);
         },
         addRandomObject() {
-            this.addObject(generateRandomObject(this.areaWidth, this.areaHeight, this.objects as GameObject[]));
+            this.addObject(generateRandomObject(this.areaWidth, this.areaHeight, this.mouseX, this.mouseY, this.objects as GameObject[]));
         },
 
         removeObject(object: GameObject) {
@@ -41,14 +45,25 @@ export const useObjectsStore = defineStore({
             }
         },
 
+        checkMouseCollision(object: GameObject) {
+            if(object.isInside(new Vector(this.mouseX, this.mouseY))) {
+                this.fail();
+            }
+        },
+
         handleObject(object: GameObject) {
             moveObject(object as GameObject);
             bounceOnBorderCollision(object as GameObject, this.areaWidth, this.areaHeight);
 
-            const collisionObject = this.objects.find(otherObject => otherObject !== object && object.collidesWith(otherObject as GameObject));
-            if(collisionObject) {
-                bounceObjects(object as GameObject, collisionObject as GameObject);
-            }
+            this.checkMouseCollision(object as GameObject);
+
+            this.objects.forEach(otherObject => {
+                // Check if object is inside other object
+                if(otherObject !== object && object.collidesWith(otherObject as GameObject)) {
+                    bounceObjects(object as GameObject, otherObject as GameObject);
+                }
+            });
+
         },
 
         start() {
@@ -67,6 +82,11 @@ export const useObjectsStore = defineStore({
                 clearInterval(this.interval);
                 this.interval = null;
             }
+        },
+
+        fail() {
+            this.failDialog = true;
+            this.reset();
         },
 
         reset() {

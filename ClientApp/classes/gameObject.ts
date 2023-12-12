@@ -55,4 +55,8 @@ export class GameObject {
         return distance <= sumWidths && distance <= sumHeights;
     }
 
+    public isInside(position: Vector): boolean {
+        return position.x >= this.leftTopPosition.x && position.x <= this.rightTopPosition.x && position.y >= this.leftTopPosition.y && position.y <= this.leftBottomPosition.y;
+    }
+
 }
