@@ -2,15 +2,19 @@
   const store = useObjectsStore();
 
   const target = ref<HTMLDivElement | null>(null);
-  const { isOutside } = useMouseInElement(target);
+  const mouseInfo = useMouseInElement(target);
   const { width, height } = useElementSize(target);
 
-  watch(isOutside, (value) => {
+  watch(mouseInfo.isOutside, (value) => {
     store.isMouseOutside = value;
   });
   watch([width, height], ([width, height]) => {
     store.areaWidth = width;
     store.areaHeight = height;
+  });
+  watch([mouseInfo.elementX, mouseInfo.elementY], ([x, y]) => {
+    store.mouseX = x;
+    store.mouseY = y;
   });
 
   onUnmounted(() => {
